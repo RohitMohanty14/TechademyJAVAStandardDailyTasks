@@ -1,0 +1,2 @@
+# TechademyJAVAStandardDailyTasks
+daily tasks 
