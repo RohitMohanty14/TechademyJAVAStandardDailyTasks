@@ -1,0 +1,5 @@
+Types of Software Maintenance
+o   Corrective, adaptive, perfective, and preventive maintenance
+3.   Common Java Maintenance Tasks
+o   Debugging, code optimization, security updates, version upgrades
+o   Logging, monitoring, and database maintenance

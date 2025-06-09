@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Alert</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(function() {
+        alert("Page loaded");
+        $('p').css('color', 'blue');
+        $('.box').css('background-color', 'DarkGreen');
+        $('#toggleMenuBtn').click(function() {
+        $('#menu').slideToggle();
+    });
+        $('#changeTextBtn').click(function() {
+        $('#myParagraph').text('Hemloo RoMo');
+        $('#hoverParagraph').hover(function() {
+        $(this).text('You are hovering over,stop doing that.');
+      }, function() {
+        $(this).text('Hover over this paragraph to change text.');
+      });
+      });
+       $('#fadeBtn').click(function() {
+        $('#myImage').fadeOut();
+      });
+      $(function() {
+      $('span').parent().css('background-color', 'lightblue');
+    });
+    $(function() {
+      $('#first').next().css('font-weight', 'bold');
+    });
+    $('#hideBtn').click(function() {
+        $('#para').hide();
+      });
+      $('#showBtn').click(function() {
+        $('#para').show();
+      });
+      $('.faq-question').click(function() {
+        $(this).next('.faq-answer').slideToggle();
+      });
+      $('#fetchBtn').click(function() {
+        $.get('https://api.adviceslip.com/advice', function(data) {
+        let advice = JSON.parse(data); 
+        $('#output').html('<p>' + advice.slip.advice + '</p>');
+      });
+      });
+      $('#nameForm').submit(function(e) {
+        e.preventDefault();
+        const userName = $('#nameInput').val().trim();
+        $.post('https://jsonplaceholder.typicode.com/posts', { name: userName }, function(data) {
+          $('#response').html('<p>Name submitted: ' + data.name + '</p>');
+        });
+      });
+      $('#nameFormss').submit(function (e) {
+        e.preventDefault();
+        const userName = $('#nameInputss').val().trim();
+        if (userName === '') {
+          $('#responses').text('Name field cannot be empty.');
+        } else {
+          $('#responses').text('Form submitted with name: ' + userName);
+        }
+      });
+      $('#emailForm').submit(function (e) {
+        e.preventDefault();
+        const email = $('#emailInput').val().trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email === '') {
+          $('#response1').text('Email field cannot be empty.');
+        } else if (!emailPattern.test(email)) {
+          $('#response1').text('Please enter a valid email address.');
+        } else {
+          $('#response1').text('Valid email submitted: ' + email);
+        }
+      });
+    });
+  </script>
+  <style>
+    #menu {
+      background: #649074;
+      padding: 10px;
+      border: 10px solid #fad4c0;
+      width: 200px;
+    }
+    #menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #menu li {
+      padding: 5px 0;
+    }
+    .faq-question {
+      cursor: pointer;
+      background: #1b998b;
+      padding: 10px;
+      margin: 5px 0;
+    }
+    .faq-answer {
+      display: none;
+      padding: 10px 15px;
+      background: #473144;
+      color: aliceblue;
+      border-left: 3px solid #af1b3f;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+    <p id="myParagraph">Hello Rohit Mohanty.</p>
+    <button id="changeTextBtn">Change Text</button>
+    <p id="first">How R U doing?</p>
+    <p>are u from rkl</p>
+    <p id="para">Holla Amigos</p>
+    <button id="hideBtn">Hide</button>
+    <button id="showBtn">Show</button>
+    <p id="hoverParagraph">Hover over this paragraph to change text.</p>
+    <button id="toggleMenuBtn">Toggle Menu</button>
+    <div id="menu">
+     <ul>
+       <li>Home</li>
+       <li>About</li>
+       <li>Services</li>
+       <li>Contact</li>
+     </ul>
+    </div>
+    <div class="box">This is a <span>sample</span> text.</div>
+    <hr>
+    <div class="box">Box 2</div>
+    <hr>
+    <div class="box">Box 3</div>
+    <hr>
+    <button id="fadeBtn">Fade Out Image</button>
+    <img id="myImage" src="RoMo.jpg" width="80" height="80" alt="Placeholder Image">
+    <div class="faq">
+    <div class="faq-question">What is your Home</div>
+    <div class="faq-answer">Rourkela Sundergarh Odisha India</div>
+
+    <div class="faq-question">Domain in Cognizant?</div>
+    <div class="faq-answer">JAVA ADM Standard</div>
+
+    <div class="faq-question">What is your date of birth?</div>
+    <div class="faq-answer">14/01/2003</div>
+    </div>
+    <button id="fetchBtn">Fetch Post</button>
+    <div id="output"></div>
+    <form id="nameForm">
+    <label for="nameInput">Enter your name:</label>
+    <input type="text" id="nameInput" required>
+    <button type="submit">Submit</button>
+    </form>
+    <div id="response"></div>
+    <form id="nameFormss">
+    <label for="nameInputs">Enter your name:</label>
+    <input type="text" id="nameInputss">
+    <button type="submit">Submit</button>
+    </form>
+    <div id="responses"></div>
+    <form id="emailForm">
+    <label for="emailInput">Enter your email:</label>
+    <input type="text" id="emailInput">
+    <button type="submit">Submit</button>
+    </form>
+    <div id="response1"></div>
+    
+</body>
+</html>

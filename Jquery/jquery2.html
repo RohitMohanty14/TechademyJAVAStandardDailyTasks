@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            padding: 20px; 
+            background-color: #f9f9f9;}
+        section { 
+            margin-bottom: 40px; 
+            padding: 20px;
+        }
+        button { 
+            margin-top: 10px;
+            padding: 10px 15px;
+        }
+        .error { 
+            color: red; 
+            font-size: 0.9em; 
+        }
+        #progressContainer { 
+            width: 300px; 
+            height: 25px; 
+            border: 1px solid #000; 
+            margin-top: 10px; 
+        }
+        #progressBar { 
+            height: 100%; 
+            width: 0; 
+            background: green; 
+        }
+        #moveBtn { 
+            position: relative; 
+        }
+        #colorBox { 
+            width: 100px; 
+            height: 100px; 
+            background: #ccc; 
+            cursor: pointer; 
+        }
+        #slideContent { 
+            display: none; 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+        }
+        li.highlight { 
+            background-color: yellow; 
+        }
+  </style>
+</head>
+<body>
+   <section>
+     <h2>Change Background</h2>
+     <button id="bgBtn">Change Background</button>
+   </section>
+   <section>
+     <h2>Update Text</h2>
+     <p id="textPara">Original text</p>
+     <button id="updateTextBtn">Update Text</button>
+   </section>
+   <section>
+     <h2>Style Inputs</h2>
+     <input type="text" placeholder="Input 1">
+     <input type="text" placeholder="Input 2">
+   </section>
+   <section>
+     <h2>Table Styling</h2>
+     <table border="3" cellpadding="10">
+       <tr><td>Row 1</td></tr>
+       <tr><td>Row 2</td></tr>
+       <tr><td>Row 3</td></tr>
+       <tr><td>Row 4</td></tr>
+     </table>
+   </section>
+   <section>
+     <h2>Typing Alert</h2>
+     <input type="text" id="typingInput" placeholder="Type here...">
+   </section>
+   <section>
+     <h2>Double-Click Color Change</h2>
+     <div id="colorBox">Double-click me</div>
+   </section>
+   <section>
+     <h2>Slide Toggle</h2>
+     <button id="toggleSlideBtn">Toggle Section</button>
+     <div id="slideContent">This section expands and collapses</div>
+   </section>
+   <section>
+     <h2>Move Button</h2>
+     <button id="moveBtn">Click to Move</button>
+   </section>
+   <section>
+     <h2>Highlight List Items</h2>
+     <ul id="fruitList">
+       <li>Apple</li>
+       <li>Banana</li>
+       <li>Cherry</li>
+     </ul>
+   </section>
+   <section>
+     <Filter List</h2>
+     <input type="text" id="filterInput" placeholder="Filter...">
+     <ul id="nameList">
+       <li>Alice</li>
+       <li>Bob</li>
+       <li>Charlie</li>
+       <li>Diana</li>
+     </ul>
+  </section>
+  <section>
+    <h2>Progress Bar</h2>
+    <button id="startProgress">Start Progress</button>
+    <div id="progressContainer">
+      <div id="progressBar"></div>
+    </div>
+  </section>
+  <section>
+    <h2>Fade Image</h2>
+    <button id="fadeImageBtn">Toggle Image</button><br><br>
+    <img id="toggleImage" src="RoMo.jpg" width="80" height="80" alt="Sample">
+  </section>
+  <section>
+    <h2>Load Users</h2>
+    <button id="loadUsers">Fetch Users</button>
+    <ul id="userList"></ul>
+  </section>
+  <section>
+     <h2> Password Strength</h2>
+     <input type="password" id="passwordInput" placeholder="Enter password">
+     <div id="strength" class="error"></div>
+     </section>
+  <section>
+      <h2>Form Validation</h2>
+      <label>Name:</label>
+      <input type="text" id="nameInput">
+      <div id="nameError" class="error"></div>
+  
+      <label>Email:</label>
+      <input type="text" id="emailInput">
+      <div id="emailError" class="error"></div>
+  </section>
+  <script>
+         $('#bgBtn').click(() => $('body').css('background', '#f0f8ff'));
+         $('#updateTextBtn').click(() => $('#textPara').text('Updated text!'));
+         $('input').css('border', '2px solid #4CAF50');
+         $('tr:odd').css('background', '#e0e0e0');
+         $('tr:even').css('background', '#f9f9f9');
+         $('#typingInput').on('input', function() { alert($(this).val()); });
+         $('#colorBox').dblclick(() => $('#colorBox').css('background', '#ffa07a'));
+         $('#toggleSlideBtn').click(() => $('#slideContent').slideToggle());
+         let moved = false;
+         $('#moveBtn').click(() => {
+         $('#moveBtn').animate({ left: moved ? '0' : '200px' });
+         moved = !moved;
+       });
+         $('#fruitList li:first, #fruitList li:last').addClass('highlight');
+         $('#filterInput').on('input', function() {
+         const query = $(this).val().toLowerCase();
+         $('#nameList li').filter(function() {
+         $(this).toggle($(this).text().toLowerCase().includes(query));
+   });
+});
+         $('#startProgress').click(() => {
+         $('#progressBar').stop(true).css('width', '0').animate({ width: '100%' }, 3000);
+  });
+         $('#fadeImageBtn').click(() => $('#toggleImage').fadeToggle());
+         $('#loadUsers').click(() => {
+         $.get('https://jsonplaceholder.typicode.com/users', data => {
+         $('#userList').empty();
+           data.forEach(u => $('#userList').append(`<li>${u.name} (${u.email})</li>`));
+    });
+  });
+         $('#passwordInput').on('input', function() {
+          const val = $(this).val();
+          let msg = '', cls = '';
+          if(val.length === 0) msg = '';
+          else if(val.length < 6) { msg = 'Weak'; cls = 'error'; }
+          else if(/[A-Z]/.test(val) && /[0-9]/.test(val) && val.length >= 8) { msg = 'Strong'; cls = ''; }
+          else { msg = 'Medium'; cls = 'error'; }
+          $('#strength').text(msg).attr('class', cls);
+  });
+         function validateName() {
+         const name = $('#nameInput').val().trim();
+         $('#nameError').text(name === '' ? 'Name cannot be empty' : '');
+  }
+        function validateEmail() {
+         const email = $('#emailInput').val().trim();
+         const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+         if(email === '') $('#emailError').text('Email cannot be empty');
+         else if(!pattern.test(email)) $('#emailError').text('Invalid email format');
+         else $('#emailError').text('');
+  }
+        $('#nameInput').on('input', validateName);
+        $('#emailInput').on('input', validateEmail);
+    </script>
+</body>
+</html>
